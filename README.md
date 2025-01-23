@@ -1,50 +1,76 @@
-# React + TypeScript + Vite
+# 🌳 **Git Flow**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Git Flow introduces a robust branching model for project development. Below is the structure and workflow for managing branches like `main`, `develop`, `release`, and `hotfix`.
 
-Currently, two official plugins are available:
+## 7.1. **Branching Model Overview**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Git Flow Model](https://media.licdn.com/dms/image/v2/D4E22AQFv9-n24c-x0A/feedshare-shrink_800/feedshare-shrink_800/0/1708786844976?e=2147483647&v=beta&t=DZ7YCMW3f5orafrSi1CXZLEB3J_YfZaWe2Gpnb0jigI)
 
-## Expanding the ESLint configuration
+### 7.2. **Branch Definitions**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+| **Branch**  | **Purpose**                                                                |
+| ----------- | -------------------------------------------------------------------------- |
+| **main**    | Contains production-ready code. Reflects what is currently live.           |
+| **develop** | Holds the latest code under development. Acts as an integration branch.    |
+| **feature** | Branch off `develop` to work on individual features.                       |
+| **release** | Prepare code for production. Merge back into `main` and `develop`.         |
+| **hotfix**  | For urgent fixes directly on `main`. Merge into both `main` and `develop`. |
 
-- Configure the top-level `parserOptions` property like this:
+### 7.3. **Workflow Steps**
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+#### 1. **Starting a Feature**
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- Branch from `develop`:
+  ```bash
+  git checkout develop
+  git checkout -b feature/{feature-name}
+  ```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+#### 2. **Finishing a Feature**
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Merge into `develop`:
+  ```bash
+  git checkout develop
+  git merge feature/{feature-name}
+  git branch -d feature/{feature-name}
+  ```
+
+#### 3. **Preparing a Release**
+
+- Branch from `develop`:
+  ```bash
+  git checkout develop
+  git checkout -b release/{version}
+  ```
+- Test and fix issues.
+- Merge into `main` and tag the release:
+  ```bash
+  git checkout main
+  git merge release/{version}
+  git tag -a v{version} -m "Release {version}"
+  ```
+- Merge back into `develop`:
+  ```bash
+  git checkout develop
+  git merge release/{version}
+  git branch -d release/{version}
+  ```
+
+#### 4. **Hotfixing**
+
+- Branch from `main`:
+  ```bash
+  git checkout main
+  git checkout -b hotfix/{issue-name}
+  ```
+- Fix the issue and merge into both `main` and `develop`:
+
+  ```bash
+  git checkout main
+  git merge hotfix/{issue-name}
+  git tag -a v{hotfix-version} -m "Hotfix {issue-name}"
+
+  git checkout develop
+  git merge hotfix/{issue-name}
+  git branch -d hotfix/{issue-name}
+  ```
