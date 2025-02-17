@@ -1,4 +1,4 @@
-import notFound from "/public/assets/images/404-img.jpg";
+import notFound from "@/assets/images/404-img.jpg";
 
 export default {
   notFound,

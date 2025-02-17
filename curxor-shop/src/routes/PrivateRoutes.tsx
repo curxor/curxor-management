@@ -5,15 +5,19 @@ import { useState } from "react";
 
 function PrivateRoutes() {
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedPage, setSelectedPage] = useState("");
   return (
     <div className="flex">
       <div
         className={`transition-all duration-300 ${collapsed ? "w-24" : "w-56"}`}
       >
-        <Sidebar setCollapsed={() => setCollapsed(!collapsed)} />
+        <Sidebar
+          getSelectedPage={setSelectedPage}
+          setCollapsed={() => setCollapsed(!collapsed)}
+        />
       </div>
       <div className="flex-1 flex flex-col py-4 pr-4">
-        <Navbar />
+        <Navbar pages={selectedPage} />
         <div className="flex-1">
           <Outlet />
         </div>

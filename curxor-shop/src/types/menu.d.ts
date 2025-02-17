@@ -5,3 +5,8 @@ export type MenuType = {
   icon: ReactNode;
   path: string;
 };
+
+export type StatusFilter = {
+  label: string;
+  key: number;
+};

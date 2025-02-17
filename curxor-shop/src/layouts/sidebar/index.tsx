@@ -6,7 +6,13 @@ import { MenuType as MenuItemProps } from "@/types/menu";
 import { menu as menuItems } from "@/constants";
 import icons from "@/constants/icons";
 
-const Sidebar = ({ setCollapsed }: { setCollapsed: () => void }) => {
+const Sidebar = ({
+  setCollapsed,
+  getSelectedPage,
+}: {
+  setCollapsed: () => void;
+  getSelectedPage: (page: string) => void;
+}) => {
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>("");
@@ -16,8 +22,9 @@ const Sidebar = ({ setCollapsed }: { setCollapsed: () => void }) => {
     const foundItem = menuItems.find((item) => item.path === currentPath);
     if (foundItem) {
       setSelectedKey(foundItem.key.toString());
+      getSelectedPage(foundItem.name);
     }
-  }, [location.pathname]);
+  }, [getSelectedPage, location.pathname]);
 
   const handleSelect = (key: string) => {
     setSelectedKey(key);

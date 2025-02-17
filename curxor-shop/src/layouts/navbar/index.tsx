@@ -1,9 +1,9 @@
 import { BellOutlined } from "@ant-design/icons";
 
-const Navbar = () => {
+const Navbar = ({ pages }: { pages: string }) => {
   return (
     <div className="flex items-center justify-between">
-      <p className="text-2xl font-bold">Dashboard</p>
+      <p className="text-2xl font-bold">{pages}</p>
       <div className="flex items-center gap-x-4">
         <div className="relative">
           <BellOutlined className="size-6" />

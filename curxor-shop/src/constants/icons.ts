@@ -1,4 +1,4 @@
-import curxorLogo from "/public/assets/icons/curxor-logo.png";
+import curxorLogo from "@/assets/icons/curxor-logo.png";
 
 export default {
   curxorLogo,

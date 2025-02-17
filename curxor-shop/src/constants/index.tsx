@@ -8,7 +8,9 @@ import {
   TagsOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import type { MenuType } from "@/types/menu";
+import type { MenuType, StatusFilter } from "@/types/menu";
+
+export const pageSize = 10;
 
 export const menu: MenuType[] = [
   {
@@ -59,4 +61,17 @@ export const menu: MenuType[] = [
     icon: <UserOutlined />,
     path: "/profile",
   },
+];
+
+export const statusFilter: StatusFilter[] = [
+  {
+    label: "All",
+    key: 1,
+  },
+  {
+    label: "Active",
+    key: 2,
+  },
+  { label: "Inactive", key: 3 },
+  { label: "Out of stock", key: 4 },
 ];
