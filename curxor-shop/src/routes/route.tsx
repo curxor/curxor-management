@@ -10,6 +10,8 @@ const Brands = lazy(() => import("@/pages/brands"));
 const Coupons = lazy(() => import("@/pages/coupons"));
 const Profile = lazy(() => import("@/pages/profile"));
 
+import ProductAttributes from "@/pages/products/pages/product-attributes";
+import ProductVariants from "@/pages/products/pages/product-variants";
 import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/register";
 import NotFound from "@/not-found";
@@ -35,6 +37,8 @@ const routes = createBrowserRouter([
       { path: "categories", element: <Categories /> },
       { path: "transactions", element: <Transactions /> },
       { path: "products", element: <Products /> },
+      { path: "products/attributes", element: <ProductAttributes /> },
+      { path: "products/variants", element: <ProductVariants /> },
       { path: "brands", element: <Brands /> },
       { path: "coupons", element: <Coupons /> },
       { path: "profile", element: <Profile /> },

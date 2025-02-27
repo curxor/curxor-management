@@ -41,7 +41,24 @@ export const menu: MenuType[] = [
     key: 5,
     name: "Products",
     icon: <ShoppingOutlined />,
-    path: "/products",
+    type: "submenu", 
+    children: [
+      {
+        key: 5.1,
+        name: "All Products",
+        path: "/products",
+      },
+      {
+        key: 5.2,
+        name: "Product Attributes",
+        path: "/products/attributes",
+      },
+      {
+        key: 5.3,
+        name: "Product Variants",
+        path: "/products/variants",
+      },
+    ],
   },
   {
     key: 6,
@@ -62,6 +79,7 @@ export const menu: MenuType[] = [
     path: "/profile",
   },
 ];
+
 
 export const statusFilter: StatusFilter[] = [
   {

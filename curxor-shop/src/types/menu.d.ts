@@ -2,8 +2,10 @@ import { ReactNode } from "react";
 export type MenuType = {
   key: number;
   name: string;
-  icon: ReactNode;
-  path: string;
+  type?: "submenu";
+  icon?: ReactNode;
+  path?: string;
+  children?: MenuType[];
 };
 
 export type StatusFilter = {

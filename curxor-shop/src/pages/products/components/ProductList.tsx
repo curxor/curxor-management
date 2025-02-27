@@ -63,7 +63,7 @@ const ProductList = () => {
       align: "center",
     },
     {
-      title: "Product Title",
+      title: "Title",
       dataIndex: "title",
       key: "title",
       render: (title: string) => (

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Input, Dropdown, Button, Space } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { Input, Dropdown, Button, Space, Modal } from "antd";
+import { DownOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import type { GetProps, MenuProps } from "antd";
 import { statusFilter } from "@/constants";
 import ProductList from "@/pages/products/components/ProductList";
+import CreateProduct from "@/pages/products/components/CreateProduct";
 
 const { Search } = Input;
 
@@ -11,6 +12,8 @@ type SearchProps = GetProps<typeof Input.Search>;
 
 function ProductsPage() {
   const [label, setLabel] = useState("All");
+  const [openCreateProduct, setOpenCreateProduct] = useState(false);
+
   const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
     console.log(info?.source, value);
   const handleMenuClick: MenuProps["onClick"] = (e) => {
@@ -43,17 +46,33 @@ function ProductsPage() {
               </Space>
             </Button>
           </Dropdown>
+          <Dropdown menu={menuProps}>
+            <Button>
+              <Space className="font-medium text-[#8B909A]">
+                Filter by date range
+                <DownOutlined className="size-3" />
+              </Space>
+            </Button>
+          </Dropdown>
         </Space>
-        <Dropdown menu={menuProps}>
-          <Button>
-            <Space className="font-medium text-[#8B909A]">
-              Filter by date range
-              <DownOutlined className="size-3" />
-            </Space>
-          </Button>
-        </Dropdown>
+        <Button
+          className="font-medium text-[#8B909A]"
+          icon={<PlusCircleOutlined />}
+          onClick={() => setOpenCreateProduct(!openCreateProduct)}
+        >
+          New Product
+        </Button>
       </div>
       <ProductList />
+      <Modal
+        title="Create New Product"
+        okText={"Save"}
+        open={openCreateProduct}
+        onCancel={() => setOpenCreateProduct(!openCreateProduct)}
+        onOk={() => setOpenCreateProduct(!openCreateProduct)}
+      >
+        <CreateProduct />
+      </Modal>
     </div>
   );
 }

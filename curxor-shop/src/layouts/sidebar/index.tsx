@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { Layout, Menu } from "antd";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { MenuType as MenuItemProps } from "@/types/menu";
 import { menu as menuItems } from "@/constants";
 import icons from "@/constants/icons";
+import type { MenuType } from "@/types/menu";
 
 const Sidebar = ({
   setCollapsed,
@@ -19,7 +19,10 @@ const Sidebar = ({
 
   useEffect(() => {
     const currentPath = location.pathname;
-    const foundItem = menuItems.find((item) => item.path === currentPath);
+    const foundItem = menuItems
+      .flatMap((item) => (item.children ? item.children : item))
+      .find((item) => item.path === currentPath);
+
     if (foundItem) {
       setSelectedKey(foundItem.key.toString());
       getSelectedPage(foundItem.name);
@@ -30,11 +33,6 @@ const Sidebar = ({
     setSelectedKey(key);
   };
 
-  const items = menuItems.map((item: MenuItemProps) => ({
-    key: item.key.toString(),
-    icon: item.icon,
-    label: <Link to={item.path}>{item.name}</Link>,
-  }));
   return (
     <Layout.Sider
       className="h-screen fixed top-0 left-0 bottom-0 shadow-md"
@@ -69,11 +67,26 @@ const Sidebar = ({
         </div>
         <Menu
           theme="light"
-          mode="vertical"
+          mode="inline"
           selectedKeys={[selectedKey]}
           onClick={({ key }) => handleSelect(key)}
-          items={items}
-        />
+        >
+          {menuItems.map((item: MenuType) =>
+            item.children ? (
+              <Menu.SubMenu key={item.key} icon={item.icon} title={item.name}>
+                {item.children.map((subItem) => (
+                  <Menu.Item key={subItem.key}>
+                    <Link to={subItem.path!}>{subItem.name}</Link>
+                  </Menu.Item>
+                ))}
+              </Menu.SubMenu>
+            ) : (
+              <Menu.Item key={item.key} icon={item.icon}>
+                <Link to={item.path!}>{item.name}</Link>
+              </Menu.Item>
+            )
+          )}
+        </Menu>
       </div>
     </Layout.Sider>
   );
