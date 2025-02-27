@@ -1,40 +1,9 @@
 import { Button, Form, Input, Upload, Select } from "antd";
-import type { UploadProps } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 function CreateProduct() {
   const [form] = Form.useForm();
   const { TextArea } = Input;
-  const props: UploadProps = {
-    action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
-    onChange({ file, fileList }) {
-      if (file.status !== "uploading") {
-        console.log(file, fileList);
-      }
-    },
-    defaultFileList: [
-      {
-        uid: "1",
-        name: "xxx.png",
-        status: "uploading",
-        url: "http://www.baidu.com/xxx.png",
-        percent: 33,
-      },
-      {
-        uid: "2",
-        name: "yyy.png",
-        status: "done",
-        url: "http://www.baidu.com/yyy.png",
-      },
-      {
-        uid: "3",
-        name: "zzz.png",
-        status: "error",
-        response: "Server Error 500",
-        url: "http://www.baidu.com/zzz.png",
-      },
-    ],
-  };
   return (
     <Form layout="vertical" form={form}>
       <div className="flex items-center justify-between">
@@ -60,9 +29,15 @@ function CreateProduct() {
       >
         <TextArea placeholder="Description" style={{ height: 100 }} />
       </Form.Item>
-      <Form.Item label="Product Image">
-        <Upload {...props}>
-          <Button icon={<UploadOutlined />}>Upload</Button>
+      <Form.Item
+        label="Upload Image"
+        name="image"
+        valuePropName="fileList"
+        getValueFromEvent={(e) => e?.fileList}
+        rules={[{ required: true, message: "Please upload an image" }]}
+      >
+        <Upload listType="picture" beforeUpload={() => false}>
+          <Button icon={<UploadOutlined />}>Click to Upload</Button>
         </Upload>
       </Form.Item>
       <Form.Item
